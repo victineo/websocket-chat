@@ -59,22 +59,20 @@ export default function Home() {
 
     return (
         <div className={styles.pageContainer}>
-            <div className={styles.messagesContainer}>
-                {/* <Message message="Olá!" isOwnMessage={false} />
-                <Message message="Oi! Tudo bem?" isOwnMessage={true} />
-                <Message message="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo neque non accusamus in maxime corrupti itaque eveniet, vero repellat odio aliquam aliquid exercitationem dolorem. Blanditiis provident reprehenderit amet porro autem!" isOwnMessage={false} />
-                <Message message="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo neque non accusamus in maxime corrupti itaque eveniet, vero repellat odio aliquam aliquid exercitationem dolorem. Blanditiis provident reprehenderit amet porro autem!" isOwnMessage={true} /> */}
-                {messages.map((msg, index) => (
-                    <Message
-                      key={index}
-                      message={msg.message}
-                      isOwnMessage={msg.user_id === 'Você' || msg.user_id === socket?.id}
-                    />
-                ))}
-                
-            </div>
-            <div className={styles.inputContainer}>
-                <MessageForm onSendMessage={handleSendMessage} />
+            <div className={styles.midColumn}>
+                <div className={styles.messagesContainer}>
+                    {messages.map((msg, index) => (
+                        <Message
+                        key={index}
+                        message={msg.message}
+                        isOwnMessage={msg.user_id === 'Você' || msg.user_id === socket?.id}
+                        />
+                    ))}
+                    
+                </div>
+                <div className={styles.inputContainer}>
+                    <MessageForm onSendMessage={handleSendMessage} />
+                </div>
             </div>
         </div>
     );
