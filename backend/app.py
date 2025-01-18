@@ -11,9 +11,11 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 
 users = {}
 
+'''
 @app.route('/')
 def index():
     return render_template('index.html')
+'''
 
 @socketio.on('connect')
 def handle_connect():
