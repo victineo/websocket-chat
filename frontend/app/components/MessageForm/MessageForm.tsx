@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from './MessageForm.module.css';
-import TextInput from "../TextInput/TextInput";
+import TextArea from "../TextArea/TextArea";
 import { Send, Paperclip } from 'lucide-react';
 
 interface MessageFormProps {
@@ -9,9 +9,9 @@ interface MessageFormProps {
 
 export default function MessageForm({ onSendMessage }: MessageFormProps) {
     const [messageText, setMessageText] = useState('');
-    console.log(setMessageText);
+    console.log(messageText); // teste
 
-    function handleMessageTextChange(event: React.ChangeEvent<HTMLInputElement>) {
+    function handleMessageTextChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
         event.target.setCustomValidity('');
         setMessageText(event.target.value);
     }
@@ -28,7 +28,7 @@ export default function MessageForm({ onSendMessage }: MessageFormProps) {
 
     return (
         <form className={styles.messageFormContainer} onSubmit={handleSendMessage}>
-            <TextInput
+            <TextArea
                 placeholder="Digite uma mensagem"
                 value={messageText}
                 onChange={handleMessageTextChange}
