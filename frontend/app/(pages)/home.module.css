@@ -1,9 +1,18 @@
 .pageContainer {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
     max-width: 80rem;
     height: 100vh;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.midColumn {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
     margin-left: auto;
     margin-right: auto;
 }
