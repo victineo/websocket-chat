@@ -1,0 +1,15 @@
+.textArea {
+    width: 100%;
+    height: auto;
+    min-height: 1rem;
+    line-height: 1.6;
+    letter-spacing: 0.015rem;
+    color: white;
+    background-color: transparent;
+    outline: none;
+    resize: none;
+    overflow: hidden;
+}
+.textArea::placeholder {
+    color: gray;
+}
