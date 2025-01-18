@@ -3,7 +3,6 @@
     height: fit-content;
     color: white;
     background-color: transparent;
-    border-radius: 12px;
     outline: none;
 }
 .textInput::placeholder {
