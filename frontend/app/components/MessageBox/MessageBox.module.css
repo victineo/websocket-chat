@@ -1,0 +1,26 @@
+.messageContainer {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 1rem;
+}
+.messageContainerOwn {
+    align-items: flex-end;
+}
+.messageContainerOther {
+    align-items: flex-start;
+}
+
+.messageBox {
+    background-color: #1f1f1f;
+    padding: 1rem;
+    border-radius: 16px;
+    width: fit-content;
+    max-width: 60%;
+}
+.messageBoxOwn {
+    background-color: #1f1f1f;
+}
+.messageBoxOther {
+    background-color: #313131;
+}

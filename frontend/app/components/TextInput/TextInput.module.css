@@ -1,0 +1,11 @@
+.textInput {
+    width: 100%;
+    height: fit-content;
+    color: white;
+    background-color: transparent;
+    border-radius: 12px;
+    outline: none;
+}
+.textInput::placeholder {
+    color: gray;
+}
