@@ -1,5 +1,5 @@
-from flask import Flask, jsonify, request, render_template
-from flask_socketio import SocketIO, emit, send
+from flask import Flask, request
+from flask_socketio import SocketIO, emit
 #from flask_cors import CORS
 
 app = Flask(__name__, template_folder='../frontend/templates')
