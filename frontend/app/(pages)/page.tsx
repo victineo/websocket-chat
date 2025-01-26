@@ -1,4 +1,4 @@
-'use client'; // Isso é necessário para que o componente seja renderizado apenas no lado do cliente
+'use client';
 
 import { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
@@ -60,7 +60,8 @@ export default function Home() {
     return (
         <div className={styles.pageContainer}>
             <div className={styles.midColumn}>
-                <div className={styles.messagesContainer}>
+                <div className={styles.scrollContainer}>
+                    <div className={styles.messagesContainer}>
                     {messages.map((msg, index) => (
                         <Message
                         key={index}
@@ -68,7 +69,7 @@ export default function Home() {
                         isOwnMessage={msg.user_id === 'Você' || msg.user_id === socket?.id}
                         />
                     ))}
-                    
+                    </div>
                 </div>
                 <div className={styles.inputContainer}>
                     <MessageForm onSendMessage={handleSendMessage} />
