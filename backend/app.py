@@ -1,6 +1,7 @@
 from flask import Flask, request
 from flask_socketio import SocketIO, emit
 #from flask_cors import CORS
+import random
 
 app = Flask(__name__, template_folder='../frontend/templates')
 # app.config['SECRET_KEY'] = 'your_secret_key'
@@ -10,6 +11,13 @@ app = Flask(__name__, template_folder='../frontend/templates')
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 users = {}
+
+lorem_messages = [
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    'Quo neque non accusamus in maxime corrupti itaque eveniet, vero repellat odio aliquam aliquid exercitationem dolorem.',
+    'Blanditiis provident reprehenderit amet porro autem!',
+    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo neque non accusamus in maxime corrupti itaque eveniet, vero repellat odio aliquam aliquid exercitationem dolorem. Blanditiis provident reprehenderit amet porro autem!',
+]
 
 '''
 @app.route('/')
@@ -37,10 +45,10 @@ def handle_message(msg):
         # Enviar mensagem automática de Lorem Ipsum
         lorem_message_data = {
             'user_id': 'Sistema',
-            'message': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+            'message': f'{random.choice(lorem_messages)}'
         }
         emit('new_message', lorem_message_data, broadcast=True)
-        print('Mensagem automática enviada: Lorem ipsum dolor sit amet, consectetur adipiscing elit.')
+        print(f'Mensagem automática enviada: {lorem_message_data["message"]}')
     except Exception as e:
         print(f'Erro ao processar mensagem: {e}')
 
