@@ -33,6 +33,14 @@ def handle_message(msg):
         }
         emit('new_message', message_data, broadcast=True)
         print(f'Mensagem recebida de {user_id}: {msg}')
+        
+        # Enviar mensagem automática de Lorem Ipsum
+        lorem_message_data = {
+            'user_id': 'Sistema',
+            'message': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+        }
+        emit('new_message', lorem_message_data, broadcast=True)
+        print('Mensagem automática enviada: Lorem ipsum dolor sit amet, consectetur adipiscing elit.')
     except Exception as e:
         print(f'Erro ao processar mensagem: {e}')
 
