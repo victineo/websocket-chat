@@ -1,7 +1,6 @@
 .aside {
     display: flex;
     flex-direction: column;
-    width: 320px;
     padding: 1rem;
     background-color: #0f0f0f;
 }
@@ -11,4 +10,12 @@
     flex-direction: column;
     gap: 0.25rem;
     padding: 1rem 0;
+}
+
+.expanded {
+    width: 320px;
+}
+.collapsed {
+    max-width: 0;
+    padding: 0;
 }
