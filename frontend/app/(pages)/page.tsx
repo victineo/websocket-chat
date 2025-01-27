@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import styles from './home.module.css';
 
+import Aside from '../components/Aside/Aside';
 import Message from '../components/MessageBox/MessageBox';
 import MessageForm from '../components/MessageForm/MessageForm';
 
@@ -59,6 +60,7 @@ export default function Home() {
 
     return (
         <div className={styles.pageContainer}>
+            <Aside />
             <div className={styles.midColumn}>
                 <div className={styles.scrollContainer}>
                     <div className={styles.messagesContainer}>
