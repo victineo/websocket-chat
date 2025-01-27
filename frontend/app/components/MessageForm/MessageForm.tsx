@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import styles from './MessageForm.module.css';
-import TextArea from "../TextArea/TextArea";
 import { Send, Paperclip } from 'lucide-react';
+import styles from './MessageForm.module.css';
+
+import TextArea from "../TextArea/TextArea";
+import IconButton from '../IconButton/IconButton';
 
 interface MessageFormProps {
     onSendMessage: (message: string) => void;
@@ -34,9 +36,7 @@ export default function MessageForm({ onSendMessage }: MessageFormProps) {
                 onChange={handleMessageTextChange}
             />
             <div className={styles.messageFormButtons}>
-                <button type="button" title="Anexar arquivos">
-                    <Paperclip size={24} />
-                </button>
+                <IconButton icon={<Paperclip size={24} />} title="Anexar arquivos" />
                 <button type="submit" disabled={isMessageTextEmpty} title="Enviar mensagem">
                     <Send size={24} />
                 </button>
