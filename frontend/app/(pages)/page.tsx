@@ -5,8 +5,8 @@ import { io, Socket } from 'socket.io-client';
 import styles from './home.module.css';
 
 import Aside from '../components/Aside/Aside';
-import Message from '../components/MessageBox/MessageBox';
-import MessageForm from '../components/MessageForm/MessageForm';
+import Welcome from '../components/Welcome/Welcome';
+import Chat from '../components/Chat/Chat';
 
 interface MessageData {
     user_id: string;
@@ -15,24 +15,9 @@ interface MessageData {
 }
 
 export default function Home() {
+    const [activeSection, setActiveSection] = useState('home');
     const [socket, setSocket] = useState<Socket | null>(null);
-    const [messages, setMessages] = useState<MessageData[]>([
-        {
-            user_id: 'Outro usuário',
-            isOwnMessage: false,
-            message: 'Olá, e bem-vindo ao chat em tempo real com WebSockets!',
-        },
-        {
-            user_id: 'Você',
-            isOwnMessage: true,
-            message: 'Olá! Tudo bem?',
-        },
-        {
-            user_id: 'Outro usuário',
-            isOwnMessage: false,
-            message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo neque non accusamus in maxime corrupti itaque eveniet, vero repellat odio aliquam aliquid exercitationem dolorem. Blanditiis provident reprehenderit amet porro autem!',
-        },
-    ]);
+    const [messages, setMessages] = useState<MessageData[]>([]);
 
     useEffect(() => {
         const newSocket = io('http://localhost:5000');
@@ -60,22 +45,21 @@ export default function Home() {
 
     return (
         <div className={styles.pageContainer}>
-            <Aside />
+            <Aside setActiveSection={setActiveSection} />
             <div className={styles.midColumn}>
-                <div className={styles.scrollContainer}>
-                    <div className={styles.messagesContainer}>
-                    {messages.map((msg, index) => (
-                        <Message
-                        key={index}
-                        message={msg.message}
-                        isOwnMessage={msg.user_id === 'Você' || msg.user_id === socket?.id}
-                        />
-                    ))}
-                    </div>
-                </div>
-                <div className={styles.inputContainer}>
-                    <MessageForm onSendMessage={handleSendMessage} />
-                </div>
+                {activeSection === 'home' && (
+                    <Welcome 
+                        onSendMessage={handleSendMessage} 
+                        setActiveSection={setActiveSection}
+                    />
+                )}
+                {activeSection === 'chat' && (
+                    <Chat 
+                        messages={messages} 
+                        onSendMessage={handleSendMessage} 
+                        socket={socket} 
+                    />
+                )}
             </div>
         </div>
     );
