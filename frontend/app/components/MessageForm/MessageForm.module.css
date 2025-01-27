@@ -14,20 +14,9 @@
     justify-content: space-between;
     gap: 1rem;
 }
-.messageFormButtons button {
-    padding: 0.5rem;
-    background-color: #1f1f1f;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
-
-    transition: background-color ease-out 0.15s;
-}
-.messageFormButtons button:not(:disabled):hover {
-    background-color: #2f2f2f;
-}
 
 .messageFormButtons button[type="submit"] {
+    padding: 0.5rem;
     background-color: white;
     border-radius: 8px;
     color: black;
