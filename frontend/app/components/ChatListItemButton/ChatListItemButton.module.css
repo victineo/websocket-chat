@@ -1,0 +1,21 @@
+.chatListItemButton {
+    width: 100%;
+    height: fit-content;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.chatListItemButtonStateLayer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+
+    transition: background-color ease-out 0.15s;
+}
+.chatListItemButtonStateLayer:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
