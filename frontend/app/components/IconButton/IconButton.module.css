@@ -21,7 +21,9 @@
 }
 .sizeXS svg {
     width: 1.25rem;
+    min-width: 1.25rem;
     height: 1.25rem;
+    min-height: 1.25rem;
 }
 
 .sizeM {
@@ -29,5 +31,7 @@
 }
 .sizeM svg {
     width: 1.5rem;
+    min-width: 1.5rem;
     height: 1.5rem;
+    min-height: 1.5rem;
 }
