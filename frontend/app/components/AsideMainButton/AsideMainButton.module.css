@@ -4,6 +4,10 @@
     border-radius: 8px;
     overflow: hidden;
 }
+.asideMainButton svg {
+    min-width: 1rem;
+    min-height: 1rem;
+}
 
 .asideMainButtonStateLayer {
     display: flex;
@@ -18,4 +22,11 @@
 }
 .asideMainButtonStateLayer:hover {
     background-color: rgba(255, 255, 255, 0.1);
+}
+.expanded {
+    width: 100%;
+}
+.collapsed {
+    display: block;
+    width: fit-content;
 }
