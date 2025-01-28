@@ -9,10 +9,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0.5rem;
 
     transition: background-color ease-out 0.15s;
 }
 .iconButtonStateLayer:hover {
     background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sizeXS {
+    padding: 0.25rem;
+}
+.sizeXS svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.sizeM {
+    padding: 0.5rem;
+}
+.sizeM svg {
+    width: 1.5rem;
+    height: 1.5rem;
 }
