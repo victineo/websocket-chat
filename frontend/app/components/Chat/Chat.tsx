@@ -16,15 +16,17 @@ interface ChatProps {
 
 export default function Chat({ messages, onSendMessage, socket }: ChatProps) {
     return (
-        <div className={styles.scrollContainer}>
-            <div className={styles.messagesContainer}>
-                {messages.map((msg, index) => (
-                    <Message
+        <div className={styles.chatWrapper}>
+            <div className={styles.scrollContainer}>
+                <div className={styles.messagesContainer}>
+                    {messages.map((msg, index) => (
+                        <Message
                         key={index}
                         message={msg.message}
                         isOwnMessage={msg.user_id === 'Você' || msg.user_id === socket?.id}
-                    />
-                ))}
+                        />
+                    ))}
+                </div>
             </div>
             <div className={styles.inputContainer}>
                 <MessageForm onSendMessage={onSendMessage} />
