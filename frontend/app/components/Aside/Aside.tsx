@@ -40,7 +40,7 @@ export default function Aside({ setActiveSection }: AsideProps) {
             </div>
             {!isCollapsed && (
                 <div className={styles.chatList}>
-                    <ChatListItemButton name='Chat de exemplo' />
+                    <ChatListItemButton name='Conversa com um nome longo de exemplo' />
                 </div>
             )}
         </aside>
