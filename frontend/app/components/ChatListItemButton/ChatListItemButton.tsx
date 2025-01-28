@@ -2,6 +2,7 @@ import { Ellipsis } from 'lucide-react'
 import styles from './ChatListItemButton.module.css';
 
 import IconButton from '../IconButton/IconButton';
+import Link from 'next/link';
 
 export default function ChatListItemButton({
     name
@@ -9,15 +10,17 @@ export default function ChatListItemButton({
     name: string
 }) {
     return (
-        <button className={styles.chatListItemButton}>
+        <div className={styles.chatListItemButtonWrapper}>
             <div className={styles.chatListItemButtonStateLayer}>
-                <p>{name}</p>
+                <Link href="www.google.com" className={styles.chatListItemButton}>
+                    <p>{name}</p>
+                </Link>
                 <IconButton
                     size="xs"
                     icon={<Ellipsis />}
                     title="Mais opções"
                 />
             </div>
-        </button>
+        </div>
     );
 }
