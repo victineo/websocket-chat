@@ -1,5 +1,5 @@
 import { useState, Dispatch, SetStateAction } from 'react';
-import { PanelLeft, Home, LayoutGrid } from 'lucide-react';
+import { ArrowLeftFromLine, ArrowRightFromLine, Home, LayoutGrid } from 'lucide-react';
 import styles from './Aside.module.css';
 
 import IconButton from '../IconButton/IconButton';
@@ -15,27 +15,34 @@ export default function Aside({ setActiveSection }: AsideProps) {
 
     return (
         <aside className={`${styles.aside} ${isCollapsed ? styles.collapsed : styles.expanded}`}>
-            <IconButton
-                icon={<PanelLeft size={24} />}
-                title={isCollapsed ? "Expandir menu" : "Recolher menu"}
-                onClick={() => setIsCollapsed(!isCollapsed)}
-            />
+            <div className={styles.widthButton}>
+                <IconButton
+                    icon={isCollapsed ? <ArrowRightFromLine /> : <ArrowLeftFromLine />}
+                    title={isCollapsed ? "Expandir menu" : "Recolher menu"}
+                    onClick={() => setIsCollapsed(!isCollapsed)}
+                />
+            </div>
             <div className={styles.asideMainButtons}>
-                <AsideMainButton 
-                    icon={<Home size={24} />} 
-                    label="Início" 
+                <AsideMainButton
+                    icon={<Home />}
+                    label="Início"
                     title="Início"
                     onClick={() => setActiveSection('home')}
+                    isCollapsed={isCollapsed}
                 />
-                <AsideMainButton 
-                    icon={<LayoutGrid size={24} />} 
-                    label="Espaços" 
+                <AsideMainButton
+                    icon={<LayoutGrid />}
+                    label="Espaços"
                     title="Espaços"
+                    onClick={() => setActiveSection('spaces')}
+                    isCollapsed={isCollapsed}
                 />
             </div>
-            <div className={styles.chatList}>
-                <ChatListItemButton name='Chat de exemplo' />
-            </div>
+            {!isCollapsed && (
+                <div className={styles.chatList}>
+                    <ChatListItemButton name='Chat de exemplo' />
+                </div>
+            )}
         </aside>
     );
 }

@@ -5,6 +5,13 @@
     background-color: #0f0f0f;
 }
 
+.widthButton {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    color: gray;
+}
+
 .asideMainButtons {
     display: flex;
     flex-direction: column;
@@ -14,8 +21,11 @@
 
 .expanded {
     width: 320px;
+
+    transition: width ease-out 0.15s;
 }
 .collapsed {
-    max-width: 0;
-    padding: 0;
+    width: fit-content;
+    
+    transition: width ease-out 0.15s;
 }
