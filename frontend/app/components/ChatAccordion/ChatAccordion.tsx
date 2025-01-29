@@ -1,11 +1,19 @@
-import styles from './ChatAcordion.module.css';
+import styles from './ChatAccordion.module.css';
 
 import ChatListItemButton from '../ChatListItemButton/ChatListItemButton';
 
-export default function ChatAccordion({ chats, onChatClick }: { chats: string[], onChatClick: (chatName: string) => void }) {
+interface ChatAccordionProps {
+    title: string;
+    chats: string[];
+    onChatClick: (chatName: string) => void;
+}
+
+export default function ChatAccordion({ title, chats, onChatClick }: ChatAccordionProps) {
+    if (chats.length === 0) return null;
+    
     return (
         <div className={styles.chatAccordion}>
-            <h2>Conversas</h2>
+            <h2>{title}</h2>
             <ol>
                 {chats.map((chatName, index) => (
                     <li key={index}>
