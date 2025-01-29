@@ -17,6 +17,12 @@ interface MessageData {
 export default function Home() {
     const [activeSection, setActiveSection] = useState('home');
     const [socket, setSocket] = useState<Socket | null>(null);
+
+    const [chats, setChats] = useState<string[]>([]);
+    const handleAddChat = (chatName: string) => {
+        setChats((prevChats) => [...prevChats, chatName]);
+    };
+
     const [messages, setMessages] = useState<MessageData[]>([]);
 
     useEffect(() => {
@@ -45,12 +51,17 @@ export default function Home() {
 
     return (
         <div className={styles.pageContainer}>
-            <Aside setActiveSection={setActiveSection} />
+            <Aside
+                setActiveSection={setActiveSection}
+                chats={chats}
+                onAddChat={handleAddChat}
+            />
             <div className={styles.midColumn}>
                 {activeSection === 'home' && (
-                    <Welcome 
-                        onSendMessage={handleSendMessage} 
+                    <Welcome
+                        onSendMessage={handleSendMessage}
                         setActiveSection={setActiveSection}
+                        onAddChat={handleAddChat}
                     />
                 )}
                 {activeSection === 'chat' && (
