@@ -4,12 +4,18 @@ import MessageForm from "../MessageForm/MessageForm";
 interface WelcomeProps {
     onSendMessage: (message: string) => void;
     setActiveSection: (section: string) => void;
+    onAddChat?: (chatName: string) => void;
 }
 
-export default function Welcome({ onSendMessage, setActiveSection }: WelcomeProps) {
+export default function Welcome({ onSendMessage, setActiveSection, onAddChat }: WelcomeProps) {
     const handleSendMessage = (message: string) => {
         onSendMessage(message);
         setActiveSection('chat');
+        
+        if (onAddChat) {
+            const chatName = `Chat ${new Date().toLocaleString()}`;
+            onAddChat(chatName);
+        }
     };
 
     return (
