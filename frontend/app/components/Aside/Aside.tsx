@@ -4,14 +4,37 @@ import styles from './Aside.module.css';
 
 import IconButton from '../IconButton/IconButton';
 import AsideMainButton from '../AsideMainButton/AsideMainButton';
-import ChatListItemButton from '../ChatListItemButton/ChatListItemButton';
+import ChatAccordion from '../ChatAccordion/ChatAccordion';
 
 interface AsideProps {
     setActiveSection: Dispatch<SetStateAction<string>>;
+    chats?: string[];
+    onAddChat?: (chatName: string) => void;
 }
 
-export default function Aside({ setActiveSection }: AsideProps) {
+interface ChatsByPeriod {
+    today: string[];
+    yesterday: string[];
+    lastSevenDays: string[];
+    lastThirtyDays: string[];
+    allTime: string[];
+}
+
+export default function Aside({ setActiveSection, chats=[], onAddChat }: AsideProps) {
     const [isCollapsed, setIsCollapsed] = useState(false);
+
+    const categorizeChats = (chats: string[]): ChatsByPeriod => {
+        const reversedChats = [...chats].reverse();
+        return {
+            today: reversedChats.slice(0, 2),
+            yesterday: reversedChats.slice(2, 4),
+            lastSevenDays: reversedChats.slice(4, 6),
+            lastThirtyDays: reversedChats.slice(6),
+            allTime: reversedChats.slice(8)
+        }
+    }
+
+    const categorizedChats = categorizeChats(chats);
 
     return (
         <aside className={`${styles.aside} ${isCollapsed ? styles.collapsed : styles.expanded}`}>
@@ -40,7 +63,14 @@ export default function Aside({ setActiveSection }: AsideProps) {
             </div>
             {!isCollapsed && (
                 <div className={styles.chatList}>
-                    <ChatListItemButton name='Conversa com um nome longo de exemplo' />
+                    {Object.entries(categorizedChats).map(([title, chats]) => (
+                        <ChatAccordion
+                            key={title}
+                            title={title}
+                            chats={chats}
+                            onChatClick={() => setActiveSection('chat')}
+                        />
+                    ))}
                 </div>
             )}
         </aside>

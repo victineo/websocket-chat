@@ -4,6 +4,16 @@
     padding: 1rem;
     background-color: #0f0f0f;
 }
+.expanded {
+    width: 320px;
+
+    transition: width ease-out 0.15s;
+}
+.collapsed {
+    width: fit-content;
+    
+    transition: width ease-out 0.15s;
+}
 
 .widthButton {
     display: flex;
@@ -19,13 +29,9 @@
     padding: 1rem 0;
 }
 
-.expanded {
-    width: 320px;
-
-    transition: width ease-out 0.15s;
-}
-.collapsed {
-    width: fit-content;
-    
-    transition: width ease-out 0.15s;
+.chatList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 0 0 0;
 }
