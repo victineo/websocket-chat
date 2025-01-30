@@ -5,8 +5,8 @@
     justify-content: center;
     width: 100%;
     height: 100vh;
-    gap: 1rem;
-    padding: 1rem 10rem;
+    gap: 2rem;
+    padding: 1rem;
 }
 
 .welcomeContainer h1 {
