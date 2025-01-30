@@ -20,8 +20,7 @@ export default function Welcome({ onSendMessage, setActiveSection, onAddChat }: 
 
     return (
         <div className={styles.welcomeContainer}>
-            <h1>Bem-vindo!</h1>
-            <p>Envie uma mensagem para começar o chat.</p>
+            <h1>O que vamos fazer hoje?</h1>
             <MessageForm onSendMessage={handleSendMessage} />
         </div>
     );
