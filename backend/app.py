@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask_socketio import SocketIO, emit
 #from flask_cors import CORS
 import random
+from controllers.controller_chat import ChatController
 
 app = Flask(__name__, template_folder='../frontend/templates')
 # app.config['SECRET_KEY'] = 'your_secret_key'
@@ -31,6 +32,36 @@ def handle_connect():
     emit('user_connected', {'user_id': user_id}, broadcast=True)
     print(f'{user_id} se conectou.')
 
+@socketio.on('chat_initial_message')
+def handle_initial_message(msg):
+    try:
+        user_id = request.sid
+
+        # 1. Cria um novo chat
+        chat_id = ChatController.create_chat('Nome do Chat')
+        print(f'Novo chat criado: {chat_id}')
+
+        # 2. Adiciona a mensagem inicial ao novo chat
+        # Objeto para ser passado ao controlador
+        message = ChatController.add_message(
+            chat_id=chat_id,
+            content=msg,
+            sender=user_id
+        )
+
+        # 3. Emite a mensagem com dados estruturados
+        # Objeto para ser retornado ao frontend
+        message_data = {
+            'chat_id': chat_id,
+            'message': message, # Já inclui content e sender
+            'timestamp': message['timestamp']
+        }
+
+        emit('new_initial_message', message_data, broadcast=True)
+        print(f'Mensagem inicial recebida de {user_id}: {msg}')
+    except Exception as e:
+        print(f'Erro ao enviar mensagem inicial: {str(e)}')
+
 @socketio.on('chat_message')
 def handle_message(msg):
     try:
@@ -39,7 +70,7 @@ def handle_message(msg):
             'user_id': user_id,
             'message': msg
         }
-        emit('new_message', message_data, broadcast=True)
+        emit('new_chat_message', message_data, broadcast=True)
         print(f'Mensagem recebida de {user_id}: {msg}')
         
         # Enviar mensagem automática de Lorem Ipsum
@@ -47,7 +78,7 @@ def handle_message(msg):
             'user_id': 'Sistema',
             'message': f'{random.choice(lorem_messages)}'
         }
-        emit('new_message', lorem_message_data, broadcast=True)
+        emit('new_chat_message', lorem_message_data, broadcast=True)
         print(f'Mensagem automática enviada: {lorem_message_data["message"]}')
     except Exception as e:
         print(f'Erro ao processar mensagem: {e}')

@@ -10,8 +10,9 @@ import Chat from '../components/Chat/Chat';
 
 interface MessageData {
     user_id: string;
-    isOwnMessage: boolean;
     message: string;
+    timestamp: string;
+    isOwnMessage: boolean;
 }
 
 export default function Home() {
@@ -32,7 +33,19 @@ export default function Home() {
             console.log('Conectado ao servidor');
         });
 
-        newSocket.on('new_message', (message: MessageData) => {
+        newSocket.on('new_initial_message', (data: any) => {
+            const message: MessageData = {
+                user_id: data.message.sender,
+                message: data.message.content,
+                timestamp: data.message.timestamp,
+                isOwnMessage: data.message.sender === socket?.id
+            }
+
+            setMessages((prevMessages) => [...prevMessages, message]);
+            console.log(`Mensagem inicial recebida de ${message.user_id}: ${message.message}`);
+        });
+
+        newSocket.on('new_chat_message', (message: MessageData) => {
             setMessages((prevMessages) => [...prevMessages, message]);
         });
 
@@ -43,7 +56,13 @@ export default function Home() {
         };
     }, []);
 
-    function handleSendMessage(message: string) {
+    function handleSendInitialMessage(message: string) {
+        if (socket) {
+            socket.emit('chat_initial_message', message);
+        }
+    };
+
+    function handleSendChatMessage(message: string) {
         if (socket) {
             socket.emit('chat_message', message);
         }
@@ -59,7 +78,7 @@ export default function Home() {
             <div className={styles.midColumn}>
                 {activeSection === 'home' && (
                     <Welcome
-                        onSendMessage={handleSendMessage}
+                        onSendMessage={handleSendInitialMessage}
                         setActiveSection={setActiveSection}
                         onAddChat={handleAddChat}
                     />
@@ -67,7 +86,7 @@ export default function Home() {
                 {activeSection === 'chat' && (
                     <Chat 
                         messages={messages} 
-                        onSendMessage={handleSendMessage} 
+                        onSendMessage={handleSendChatMessage} 
                         socket={socket} 
                     />
                 )}
