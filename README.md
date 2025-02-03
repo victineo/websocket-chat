@@ -11,6 +11,9 @@ Flask is a lightweight WSGI web application framework in Python. It is designed 
 ### Flask-SocketIO
 Flask-SocketIO is an extension that adds Socket.IO support to your Flask application. Socket.IO is a library that enables real-time, bidirectional communication between the browser and the server. This is achieved through the use of WebSockets, which provide a persistent connection between the client and the server, allowing for real-time updates without the need for page reloads.
 
+### TinyDB
+TinyDB is a lightweight, document-oriented database for Python that stores data in JSON format. It's perfect for small projects and prototypes, offering a simple, file-based storage solution without the need for a full-scale database server. TinyDB allows you to easily store, query, and manage data with minimal setup, making it an excellent choice for applications requiring quick and straightforward data persistence.
+
 ## Dependencies (frontend)
 ### React
 React is a JavaScript library for building user interfaces. It is used to create interactive and dynamic web applications. React allows you to build reusable UI components and manage the state of your application efficiently.
