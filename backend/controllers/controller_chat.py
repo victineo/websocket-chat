@@ -6,27 +6,12 @@ from datetime import datetime, timezone
 
 class ChatController:
     @staticmethod
-    def create_chat(name):
-        chat_model = ChatModel(name)
+    def create_chat():
+        chat_name = f'Chat {datetime.now(timezone.utc).strftime('%d/%m/%Y %H:%M')}' # Definindo nome padrão para o chat
+        chat_model = ChatModel(name=chat_name)
         chat_id = chats_table.insert(chat_model.to_dict())
 
         return chat_id
-
-        '''
-        chat_model = ChatModel(name, participants)
-
-        initial_message = MessageModel(content=initial_content, sender='user')
-        chat_model.add_message(initial_message.to_dict())
-
-        bot_response = "Olá! Como posso te ajudar hoje?"
-
-        bot_message = MessageModel(content=bot_response, sender='bot')
-        chat_model.add_message(bot_message.to_dict())
-
-        chat_id = chats_table.insert(chat_model.to_dict())
-
-        return chat_id
-        '''
     
     @staticmethod
     def get_chat(chat_id):
