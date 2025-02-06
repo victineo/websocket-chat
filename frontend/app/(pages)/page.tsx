@@ -16,10 +16,18 @@ interface MessageData {
 }
 
 export default function Home() {
-    const [activeSection, setActiveSection] = useState('home');
     const [socket, setSocket] = useState<Socket | null>(null);
 
+    const [activeSection, setActiveSection] = useState('home');
+
     const [chats, setChats] = useState<string[]>([]);
+
+    const [activeChat, setActiveChat] = useState<{
+        id: string;
+        name: string;
+        messages: MessageData[];
+    } | null>(null);
+    
     const handleAddChat = (chatName: string) => {
         setChats((prevChats) => [...prevChats, chatName]);
     };
@@ -34,6 +42,30 @@ export default function Home() {
         });
 
         newSocket.on('new_initial_message', (data: any) => {
+            if (activeSection === 'home') {
+                const newChat = {
+                    id: data.chat_id,
+                    name: data.chat_name,
+                    messages: [{
+                        user_id: data.message.sender,
+                        message: data.message.content,
+                        timestamp: data.message.timestamp,
+                        isOwnMessage: data.message.sender === socket?.id
+                    }]
+                }
+
+                setActiveSection('chat');
+                console.log(`Seção ativa mudou de 'home' para 'chat'.`);
+                setActiveChat(newChat);
+                console.log(`Novo chat ativo: ${newChat.name}`);
+                setMessages(newChat.messages);
+                console.log(`Nova mensagem integrada ao chat: ${newChat.messages}`)
+            }
+        });
+
+        newSocket.on('new_chat_message', (data: any) => {
+            console.log(`O backend acionou o evento 'new_chat_message'!`);
+            
             const message: MessageData = {
                 user_id: data.message.sender,
                 message: data.message.content,
@@ -42,11 +74,42 @@ export default function Home() {
             }
 
             setMessages((prevMessages) => [...prevMessages, message]);
-            console.log(`Mensagem inicial recebida de ${message.user_id}: ${message.message}`);
+
+            setActiveChat((prevChat) => {
+                if (prevChat) {
+                    return {
+                        ...prevChat,
+                        messages: [...prevChat.messages, message]
+                    }
+                }
+                return prevChat;
+            });
+
+            console.log(`Mensagem recebida de ${message.user_id}: ${message.message}`);
         });
 
-        newSocket.on('new_chat_message', (message: MessageData) => {
+        newSocket.on('new_system_message', (data: any) => {
+            console.log(`O backend acionou o evento 'new_system_message'!`);
+            
+            const message: MessageData = {
+                user_id: data.message.sender,
+                message: data.message.content,
+                timestamp: data.message.timestamp,
+                isOwnMessage: false
+            }
+
             setMessages((prevMessages) => [...prevMessages, message]);
+            setActiveChat((prevChat) => {
+                if (prevChat) {
+                    return {
+                        ...prevChat,
+                        messages: [...prevChat.messages, message]
+                    }
+                }
+                return prevChat;
+            })
+
+            console.log(`Mensagem do sistema integrada ao chat: ${message.message}`);
         });
 
         setSocket(newSocket);
@@ -63,8 +126,11 @@ export default function Home() {
     };
 
     function handleSendChatMessage(message: string) {
-        if (socket) {
-            socket.emit('chat_message', message);
+        if (socket && activeSection === 'chat' && activeChat) {
+            socket.emit('chat_message', {
+                chat_id: activeChat.id,
+                message: message
+            });
         }
     };
 
