@@ -55,11 +55,9 @@ export default function Home() {
                 }
 
                 setActiveSection('chat');
-                console.log(`Seção ativa mudou de 'home' para 'chat'.`);
+                setChats((prevChats) => [...prevChats, newChat.name]);
                 setActiveChat(newChat);
-                console.log(`Novo chat ativo: ${newChat.name}`);
                 setMessages(newChat.messages);
-                console.log(`Nova mensagem integrada ao chat: ${newChat.messages}`)
             }
         });
 
