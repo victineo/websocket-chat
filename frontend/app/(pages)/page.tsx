@@ -27,10 +27,6 @@ export default function Home() {
         name: string;
         messages: MessageData[];
     } | null>(null);
-    
-    const handleAddChat = (chatName: string) => {
-        setChats((prevChats) => [...prevChats, chatName]);
-    };
 
     const [messages, setMessages] = useState<MessageData[]>([]);
 
@@ -137,14 +133,11 @@ export default function Home() {
             <Aside
                 setActiveSection={setActiveSection}
                 chats={chats}
-                onAddChat={handleAddChat}
             />
             <div className={styles.midColumn}>
                 {activeSection === 'home' && (
                     <Welcome
                         onSendMessage={handleSendInitialMessage}
-                        setActiveSection={setActiveSection}
-                        onAddChat={handleAddChat}
                     />
                 )}
                 {activeSection === 'chat' && (

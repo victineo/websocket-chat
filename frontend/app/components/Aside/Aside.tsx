@@ -9,7 +9,6 @@ import ChatAccordion from '../ChatAccordion/ChatAccordion';
 interface AsideProps {
     setActiveSection: Dispatch<SetStateAction<string>>;
     chats?: string[];
-    onAddChat?: (chatName: string) => void;
 }
 
 interface ChatsByPeriod {
@@ -20,7 +19,7 @@ interface ChatsByPeriod {
     allTime: string[];
 }
 
-export default function Aside({ setActiveSection, chats=[], onAddChat }: AsideProps) {
+export default function Aside({ setActiveSection, chats=[] }: AsideProps) {
     const [isCollapsed, setIsCollapsed] = useState(false);
 
     const categorizeChats = (chats: string[]): ChatsByPeriod => {
