@@ -7,26 +7,16 @@ import styles from './home.module.css';
 import Aside from '../components/Aside/Aside';
 import Welcome from '../components/Welcome/Welcome';
 import Chat from '../components/Chat/Chat';
-
-interface MessageData {
-    user_id: string;
-    message: string;
-    timestamp: string;
-    isOwnMessage: boolean;
-}
+import { MessageData, ChatData } from '../types';
 
 export default function Home() {
     const [socket, setSocket] = useState<Socket | null>(null);
 
     const [activeSection, setActiveSection] = useState('home');
 
-    const [chats, setChats] = useState<string[]>([]);
+    const [chats, setChats] = useState<ChatData[]>([]);
 
-    const [activeChat, setActiveChat] = useState<{
-        id: string;
-        name: string;
-        messages: MessageData[];
-    } | null>(null);
+    const [activeChat, setActiveChat] = useState<ChatData | null>(null);
 
     const [messages, setMessages] = useState<MessageData[]>([]);
 
@@ -42,16 +32,18 @@ export default function Home() {
                 const newChat = {
                     id: data.chat_id,
                     name: data.chat_name,
-                    messages: [{
-                        user_id: data.message.sender,
-                        message: data.message.content,
-                        timestamp: data.message.timestamp,
-                        isOwnMessage: data.message.sender === socket?.id
-                    }]
+                    messages: [
+                        {
+                            user_id: data.message.sender,
+                            message: data.message.content,
+                            timestamp: data.message.timestamp,
+                            isOwnMessage: data.message.sender === socket?.id
+                        }
+                    ]
                 }
 
                 setActiveSection('chat');
-                setChats((prevChats) => [...prevChats, newChat.name]);
+                setChats((prevChats) => [...prevChats, newChat]);
                 setActiveChat(newChat);
                 setMessages(newChat.messages);
             }

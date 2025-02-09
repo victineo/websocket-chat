@@ -1,11 +1,12 @@
 import styles from './ChatAccordion.module.css';
 
 import ChatListItemButton from '../ChatListItemButton/ChatListItemButton';
+import { ChatData } from '../../types';
 
 interface ChatAccordionProps {
     title: string;
-    chats: string[];
-    onChatClick: (chatName: string) => void;
+    chats: ChatData[];
+    onChatClick: (chat: ChatData) => void;
 }
 
 export default function ChatAccordion({ title, chats, onChatClick }: ChatAccordionProps) {
@@ -15,11 +16,11 @@ export default function ChatAccordion({ title, chats, onChatClick }: ChatAccordi
         <div className={styles.chatAccordion}>
             <h2>{title}</h2>
             <ol>
-                {chats.map((chatName, index) => (
+                {chats.map((chat, index) => (
                     <li key={index}>
                         <ChatListItemButton
-                            name={chatName}
-                            onClick={() => onChatClick(chatName)}
+                            chat={chat}
+                            onClick={() => onChatClick(chat)}
                         />
                     </li>
                 ))}

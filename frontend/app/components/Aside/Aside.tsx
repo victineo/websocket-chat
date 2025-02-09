@@ -5,24 +5,25 @@ import styles from './Aside.module.css';
 import IconButton from '../IconButton/IconButton';
 import AsideMainButton from '../AsideMainButton/AsideMainButton';
 import ChatAccordion from '../ChatAccordion/ChatAccordion';
+import { ChatData } from '../../types';
 
 interface AsideProps {
     setActiveSection: Dispatch<SetStateAction<string>>;
-    chats?: string[];
+    chats?: ChatData[];
 }
 
 interface ChatsByPeriod {
-    today: string[];
-    yesterday: string[];
-    lastSevenDays: string[];
-    lastThirtyDays: string[];
-    allTime: string[];
+    today: ChatData[];
+    yesterday: ChatData[];
+    lastSevenDays: ChatData[];
+    lastThirtyDays: ChatData[];
+    allTime: ChatData[];
 }
 
 export default function Aside({ setActiveSection, chats=[] }: AsideProps) {
     const [isCollapsed, setIsCollapsed] = useState(false);
 
-    const categorizeChats = (chats: string[]): ChatsByPeriod => {
+    const categorizeChats = (chats: ChatData[]): ChatsByPeriod => {
         const reversedChats = [...chats].reverse();
         return {
             today: reversedChats.slice(0, 2),
@@ -67,7 +68,9 @@ export default function Aside({ setActiveSection, chats=[] }: AsideProps) {
                             key={title}
                             title={title}
                             chats={chats}
-                            onChatClick={() => setActiveSection('chat')}
+                            onChatClick={(chat: ChatData) => {
+                                setActiveSection('chat');
+                            }}
                         />
                     ))}
                 </div>

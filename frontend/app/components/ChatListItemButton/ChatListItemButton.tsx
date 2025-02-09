@@ -2,22 +2,28 @@ import { Ellipsis } from 'lucide-react'
 import styles from './ChatListItemButton.module.css';
 
 import IconButton from '../IconButton/IconButton';
+import { ChatData } from '../../types';
 
 interface ChatListItemButtonProps {
-    name: string;
+    chat: ChatData;
+    isActive?: boolean;
     onClick?: () => void;
 }
 
-export default function ChatListItemButton({ name, onClick }: ChatListItemButtonProps) {
+export default function ChatListItemButton({
+    chat,
+    isActive = false,
+    onClick
+}: ChatListItemButtonProps) {
     return (
         <div className={styles.chatListItemButtonWrapper}>
             <div className={styles.chatListItemButtonStateLayer}>
                 <button 
                     className={styles.chatListItemButton}
                     onClick={onClick}
-                    title={name}
+                    title={chat.name}
                 >
-                    <p>{name}</p>
+                    <p>{chat.name}</p>
                 </button>
                 <IconButton
                     size="xs"
