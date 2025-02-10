@@ -134,11 +134,23 @@ export default function Home() {
         }
     };
 
+    function handleChatSelect(chat: ChatData) {
+        setActiveSection('chat');
+        console.log(`Selecionando chat: ${chat.name}`);
+        setActiveChat(chat);
+        console.log(`Chat ativo no estado: ${activeChat}`);
+        console.log(`Estrutura completa do chat ativo no estado:\n${JSON.stringify(chat, null, 2)}`);
+        setMessages(chat.messages || []);
+        console.log(`Mensagens do chat: ${chat.messages}`);
+        console.log(`Mensagens armazenadas no estado: ${JSON.stringify(messages, null, 2)}`);
+    }
+
     return (
         <div className={styles.pageContainer}>
             <Aside
                 setActiveSection={setActiveSection}
                 chats={chats}
+                onChatSelect={handleChatSelect}
             />
             <div className={styles.midColumn}>
                 {activeSection === 'home' && (
@@ -147,10 +159,10 @@ export default function Home() {
                     />
                 )}
                 {activeSection === 'chat' && (
-                    <Chat 
-                        messages={messages} 
-                        onSendMessage={handleSendChatMessage} 
-                        socket={socket} 
+                    <Chat
+                        messages={messages}
+                        onSendMessage={handleSendChatMessage}
+                        socket={socket}
                     />
                 )}
             </div>

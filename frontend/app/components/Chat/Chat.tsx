@@ -2,11 +2,7 @@ import { Socket } from 'socket.io-client';
 import styles from './Chat.module.css';
 import Message from '../MessageBox/MessageBox';
 import MessageForm from '../MessageForm/MessageForm';
-
-interface MessageData {
-    message: string;
-    user_id: string;
-}
+import { MessageData } from '../../types';
 
 interface ChatProps {
     messages: MessageData[];
@@ -14,7 +10,11 @@ interface ChatProps {
     socket: Socket | null;
 }
 
-export default function Chat({ messages, onSendMessage, socket }: ChatProps) {
+export default function Chat({
+    messages,
+    onSendMessage,
+    socket
+}: ChatProps) {
     return (
         <div className={styles.chatWrapper}>
             <div className={styles.scrollContainer}>
@@ -22,8 +22,10 @@ export default function Chat({ messages, onSendMessage, socket }: ChatProps) {
                     {messages.map((msg, index) => (
                         <Message
                         key={index}
+                        user_id={msg.user_id}
                         message={msg.message}
-                        isOwnMessage={msg.user_id === 'Você' || msg.user_id === socket?.id}
+                        timestamp={msg.timestamp}
+                        isOwnMessage={msg.isOwnMessage || msg.user_id === socket?.id}
                         />
                     ))}
                 </div>

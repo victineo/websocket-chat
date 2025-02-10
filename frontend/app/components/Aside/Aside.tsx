@@ -10,6 +10,7 @@ import { ChatData } from '../../types';
 interface AsideProps {
     setActiveSection: Dispatch<SetStateAction<string>>;
     chats?: ChatData[];
+    onChatSelect: (chat: ChatData) => void;
 }
 
 interface ChatsByPeriod {
@@ -20,7 +21,11 @@ interface ChatsByPeriod {
     allTime: ChatData[];
 }
 
-export default function Aside({ setActiveSection, chats=[] }: AsideProps) {
+export default function Aside({
+    setActiveSection,
+    chats = [],
+    onChatSelect
+}: AsideProps) {
     const [isCollapsed, setIsCollapsed] = useState(false);
 
     const categorizeChats = (chats: ChatData[]): ChatsByPeriod => {
@@ -70,6 +75,7 @@ export default function Aside({ setActiveSection, chats=[] }: AsideProps) {
                             chats={chats}
                             onChatClick={(chat: ChatData) => {
                                 setActiveSection('chat');
+                                onChatSelect(chat);
                             }}
                         />
                     ))}

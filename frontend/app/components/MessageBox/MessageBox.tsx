@@ -1,11 +1,12 @@
 import styles from './MessageBox.module.css';
+import { MessageData } from '../../types';
 
-interface MessageProps {
-    message: string;
-    isOwnMessage: boolean;
-}
-
-export default function Message({ message, isOwnMessage }: MessageProps) {
+export default function Message({
+    user_id,
+    message,
+    timestamp,
+    isOwnMessage
+}: MessageData) {
     return (
         <div className={`${styles.messageContainer} ${isOwnMessage ? styles.messageContainerOwn : styles.messageContainerOther}`}>
             <div className={`${styles.messageBox} ${isOwnMessage ? styles.messageBoxOwn : styles.messageBoxOther}`}>
