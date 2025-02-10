@@ -33,6 +33,19 @@ def handle_connect():
     emit('user_connected', {'user_id': user_id}, broadcast=True)
     print(f'{user_id} se conectou.')
 
+@socketio.on('get_initial_chats')
+def handle_get_initial_chats():
+    try:
+        user_id = request.sid
+        chats = ChatController.get_chats()
+
+        emit('initial_chats', chats, broadcast=True)
+        print(f'Chats iniciais solicitados por {user_id}')
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        print(f'Erro ao obter chats: {e}')
+
 @socketio.on('chat_initial_message')
 def handle_initial_message(msg):
     try:

@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 class ChatController:
     @staticmethod
     def create_chat():
-        chat_name = f'Chat {datetime.now(timezone.utc).strftime('%d/%m/%Y %H:%M')}' # Definindo nome padrão para o chat
+        chat_name = f'Chat {datetime.now(timezone.utc).strftime('%d/%m/%Y %H:%M')}'
         chat_model = ChatModel(name=chat_name)
         chat_id = chats_table.insert(chat_model.to_dict())
 
@@ -21,7 +21,14 @@ class ChatController:
     @staticmethod
     def get_chats():
         chats = chats_table.all()
-        return [ChatModel(**chat) for chat in chats]
+
+        # Converte os chats em dicionários serializáveis
+        serializable_chats = []
+        for chat in chats:
+            chat_dict = dict(chat)
+            serializable_chats.append(chat_dict)
+
+        return serializable_chats
     
     @staticmethod
     def add_message(chat_id, content, sender):

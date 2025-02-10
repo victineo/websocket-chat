@@ -25,6 +25,20 @@ export default function Home() {
 
         newSocket.on('connect', () => {
             console.log('Conectado ao servidor');
+
+            newSocket.emit('get_initial_chats');
+            console.log(`Solicitando chats para o backend...`);
+        });
+
+        newSocket.on('initial_chats', (initialChats: ChatData[]) => {
+            console.log(`Solicitação de chats enviada para o backend!`);
+
+            if (!initialChats || initialChats.length === 0) {
+                console.log('Nenhum chat recebido do backend.');
+                return;
+            }
+
+            setChats(initialChats);
         });
 
         newSocket.on('new_initial_message', (data: any) => {
