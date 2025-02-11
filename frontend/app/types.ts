@@ -1,6 +1,6 @@
 export interface MessageData {
-    user_id: string;
-    message: string;
+    content: string;
+    sender: string;
     timestamp: string;
     isOwnMessage: boolean;
 }

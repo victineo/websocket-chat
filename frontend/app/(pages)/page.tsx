@@ -43,13 +43,13 @@ export default function Home() {
 
         newSocket.on('new_initial_message', (data: any) => {
             if (activeSection === 'home') {
-                const newChat = {
+                const newChat: ChatData = {
                     id: data.chat_id,
                     name: data.chat_name,
                     messages: [
                         {
-                            user_id: data.message.sender,
-                            message: data.message.content,
+                            content: data.message.content,
+                            sender: data.message.sender,
                             timestamp: data.message.timestamp,
                             isOwnMessage: data.message.sender === socket?.id
                         }
@@ -67,8 +67,8 @@ export default function Home() {
             console.log(`O backend acionou o evento 'new_chat_message'!`);
             
             const message: MessageData = {
-                user_id: data.message.sender,
-                message: data.message.content,
+                content: data.message.content,
+                sender: data.message.sender,
                 timestamp: data.message.timestamp,
                 isOwnMessage: data.message.sender === socket?.id
             }
@@ -85,15 +85,15 @@ export default function Home() {
                 return prevChat;
             });
 
-            console.log(`Mensagem recebida de ${message.user_id}: ${message.message}`);
+            console.log(`Mensagem recebida de ${message.sender}: ${message.content}`);
         });
 
         newSocket.on('new_system_message', (data: any) => {
             console.log(`O backend acionou o evento 'new_system_message'!`);
             
             const message: MessageData = {
-                user_id: data.message.sender,
-                message: data.message.content,
+                content: data.message.content,
+                sender: data.message.sender,
                 timestamp: data.message.timestamp,
                 isOwnMessage: false
             }
@@ -109,7 +109,7 @@ export default function Home() {
                 return prevChat;
             })
 
-            console.log(`Mensagem do sistema integrada ao chat: ${message.message}`);
+            console.log(`Mensagem do sistema integrada ao chat: ${message.content}`);
         });
 
         setSocket(newSocket);
@@ -135,14 +135,12 @@ export default function Home() {
     };
 
     function handleChatSelect(chat: ChatData) {
-        setActiveSection('chat');
-        console.log(`Selecionando chat: ${chat.name}`);
+        if (activeSection !== 'chat') {
+            setActiveSection('chat');
+        }
+
         setActiveChat(chat);
-        console.log(`Chat ativo no estado: ${activeChat}`);
-        console.log(`Estrutura completa do chat ativo no estado:\n${JSON.stringify(chat, null, 2)}`);
-        setMessages(chat.messages || []);
-        console.log(`Mensagens do chat: ${chat.messages}`);
-        console.log(`Mensagens armazenadas no estado: ${JSON.stringify(messages, null, 2)}`);
+        setMessages(chat.messages);
     }
 
     return (

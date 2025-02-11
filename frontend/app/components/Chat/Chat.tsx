@@ -22,10 +22,10 @@ export default function Chat({
                     {messages.map((msg, index) => (
                         <Message
                         key={index}
-                        user_id={msg.user_id}
-                        message={msg.message}
+                        content={msg.content}
+                        sender={msg.sender}
                         timestamp={msg.timestamp}
-                        isOwnMessage={msg.isOwnMessage || msg.user_id === socket?.id}
+                        isOwnMessage={msg.sender != 'system'} // Anteriormente `msg.sender === socket?.id`
                         />
                     ))}
                 </div>
