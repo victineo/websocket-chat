@@ -7,9 +7,25 @@ from datetime import datetime, timezone
 class ChatController:
     @staticmethod
     def create_chat():
+        '''
+        O TinyDB cria seus próprios IDs para documentos, e os dicionários com toda a estrutura dos chats
+        passam a ser valores desses IDs. Ou seja, esses IDs NÃO estão presentes nos dicionários dos chats.
+        Portanto, quando os chats são encaminhados para o frontend, são encaminhados sem IDs, tornando impossível
+        enviar mensagens já que os chats não estão devidamente identificados.
+
+        Para solucionar esse problema, criamos um chat completo, inicialmente com `id=None`, e após o inserirmos
+        no banco de dados, usamos o ID de documento gerado pelo TinyDB para atualizar o campo `id` do chat.
+        '''
+        # 1. Cria um modelo de chat completo, mas sem ID
         chat_name = f'Chat {datetime.now(timezone.utc).strftime('%d/%m/%Y %H:%M')}'
         chat_model = ChatModel(name=chat_name)
+
+        # 2. Insere o dicionário do modelo no banco de dados e armazena o ID de documento gerado pelo TinyDB
         chat_id = chats_table.insert(chat_model.to_dict())
+
+        # 3. Cria um ID dentro do dicionário do chat usando esse mesmo ID gerado pelo TinyDB, e o atualiza no banco de dados
+        chat_model.id = chat_id # CONVERTER PARA STRING
+        chats_table.update(chat_model.to_dict(), doc_ids=[chat_id])
 
         return chat_id
     
@@ -22,7 +38,7 @@ class ChatController:
     def get_chats():
         chats = chats_table.all()
 
-        # Converte os chats em dicionários serializáveis
+        # Converte os chats de documentos para dicionários serializáveis
         serializable_chats = []
         for chat in chats:
             chat_dict = dict(chat)

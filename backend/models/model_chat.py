@@ -2,7 +2,8 @@ from datetime import datetime, timezone
 from database import chats_table, messages_table, Query
 
 class ChatModel:
-    def __init__(self, name, **kwargs) -> None:
+    def __init__(self, name, id = None, **kwargs) -> None:
+        self.id = id
         self.name = name
         self.created_at = ('created_at', datetime.now(timezone.utc).isoformat())
         self.messages = kwargs.get('messages', [])
@@ -14,6 +15,7 @@ class ChatModel:
     
     def to_dict(self):
         return {
+            'id': self.id,
             'name': self.name,
             'created_at': self.created_at,
             'messages': self.messages,
