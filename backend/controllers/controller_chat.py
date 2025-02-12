@@ -24,7 +24,7 @@ class ChatController:
         chat_id = chats_table.insert(chat_model.to_dict())
 
         # 3. Cria um ID dentro do dicionário do chat usando esse mesmo ID gerado pelo TinyDB, e o atualiza no banco de dados
-        chat_model.id = chat_id # CONVERTER PARA STRING
+        chat_model.id = str(chat_id)
         chats_table.update(chat_model.to_dict(), doc_ids=[chat_id])
 
         return chat_id
@@ -48,7 +48,9 @@ class ChatController:
     
     @staticmethod
     def add_message(chat_id, content, sender):
-        chat = chats_table.get(doc_id=chat_id)
+        chat_doc_id = int(chat_id)
+        
+        chat = chats_table.get(doc_id=chat_doc_id)
 
         message = MessageModel(
             content=content,
@@ -60,7 +62,7 @@ class ChatController:
             chat_model = ChatModel(**chat)
             chat_model.add_message(message.to_dict())
 
-            chats_table.update(chat_model.to_dict(), doc_ids=[chat_id])
+            chats_table.update(chat_model.to_dict(), doc_ids=[chat_doc_id])
             return message.to_dict()
         
         return None

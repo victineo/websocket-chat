@@ -52,16 +52,17 @@ def handle_initial_message(msg):
         user_id = request.sid
 
         # 1. Cria um novo chat
-        chat_id = ChatController.create_chat()
-        print(f'Novo chat criado: {chat_id}')
+        chat_doc_id = ChatController.create_chat()
+        print(f'Novo chat criado: {chat_doc_id}')
 
-        chat = ChatController.get_chat(chat_id=chat_id)
+        chat = ChatController.get_chat(chat_doc_id)
         chat_name = chat.name
+        chat_id = chat.id
 
         # 2. Adiciona a mensagem inicial ao novo chat
         # Objeto para ser passado ao controlador
         message = ChatController.add_message(
-            chat_id=chat_id,
+            chat_id=chat_doc_id,
             content=msg,
             sender=user_id
         )
@@ -78,7 +79,7 @@ def handle_initial_message(msg):
         print(f'Mensagem inicial recebida de {user_id}: {msg}')
 
         # 4. Envia mensagem automática do sistema
-        send_system_message(chat_id)
+        send_system_message(chat_doc_id)
     except Exception as e:
         print(f'Erro ao enviar mensagem inicial: {str(e)}')
 
@@ -118,9 +119,11 @@ def send_system_message(chat_id):
     try:
         time.sleep(0.5) # Aguarda 0.5 segundos antes de enviar a mensagem automática
 
+        chat_doc_id = int(chat_id)
+
         # Objeto para ser passado ao controlador
         lorem_message = ChatController.add_message(
-            chat_id=chat_id,
+            chat_id=chat_doc_id,
             content=random.choice(lorem_messages),
             sender='system'
         )
