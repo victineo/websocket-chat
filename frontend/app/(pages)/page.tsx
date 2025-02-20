@@ -16,7 +16,7 @@ export default function Home() {
 
     const [chats, setChats] = useState<ChatData[]>([]);
 
-    const [activeChat, setActiveChat] = useState<ChatData | null>(null);
+    const [activeChat, setActiveChat] = useState<ChatData>();
 
     const [messages, setMessages] = useState<MessageData[]>([]);
 
@@ -42,6 +42,7 @@ export default function Home() {
         });
 
         newSocket.on('new_initial_message', (data: any) => {
+            console.log(`O backend acionou o evento 'new_initial_message'!`);
             if (activeSection === 'home') {
                 const newChat: ChatData = {
                     id: data.chat_id,
@@ -60,11 +61,14 @@ export default function Home() {
                 setChats((prevChats) => [...prevChats, newChat]);
                 setActiveChat(newChat);
                 setMessages(newChat.messages);
+                console.log(`Estrutura completa do novo chat criado:\n${JSON.stringify(newChat, null, 2)}`);
             }
         });
 
         newSocket.on('new_chat_message', (data: any) => {
             console.log(`O backend acionou o evento 'new_chat_message'!`);
+            console.log(`Estrutura completa do chat ativo NO ESTADO: ${JSON.stringify(activeChat, null, 2)}`);
+            console.log(`Estrutura completa das mensagens NO ESTADO: ${JSON.stringify(messages, null, 2)}`);
             
             const message: MessageData = {
                 content: data.message.content,
@@ -84,6 +88,7 @@ export default function Home() {
                 }
                 return prevChat;
             });
+            console.log(`Estrutura completa do chat ativo atualizada NO ESTADO:\n${JSON.stringify(activeChat, null, 2)}\nID: ${activeChat?.id}\nNome: ${activeChat?.name}`);
 
             console.log(`Mensagem recebida de ${message.sender}: ${message.content}`);
         });
@@ -127,6 +132,7 @@ export default function Home() {
 
     function handleSendChatMessage(message: string) {
         if (socket && activeSection === 'chat' && activeChat) {
+            console.log(`Estrutura completa do chat ativo: ${JSON.stringify(activeChat, null, 2)}`);
             socket.emit('chat_message', {
                 chat_id: activeChat.id,
                 message: message
@@ -140,6 +146,7 @@ export default function Home() {
         }
 
         setActiveChat(chat);
+        console.log(`Estrutura completa do chat selecionado: ${JSON.stringify(chat, null, 2)}`);
         setMessages(chat.messages);
     }
 
