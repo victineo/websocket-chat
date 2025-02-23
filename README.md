@@ -11,8 +11,11 @@ Flask is a lightweight WSGI web application framework in Python. It is designed 
 ### Flask-SocketIO
 Flask-SocketIO is an extension that adds Socket.IO support to your Flask application. Socket.IO is a library that enables real-time, bidirectional communication between the browser and the server. This is achieved through the use of WebSockets, which provide a persistent connection between the client and the server, allowing for real-time updates without the need for page reloads.
 
-### TinyDB
-TinyDB is a lightweight, document-oriented database for Python that stores data in JSON format. It's perfect for small projects and prototypes, offering a simple, file-based storage solution without the need for a full-scale database server. TinyDB allows you to easily store, query, and manage data with minimal setup, making it an excellent choice for applications requiring quick and straightforward data persistence.
+### Flask-SQLAlchemy
+Flask-SQLAlchemy is a library that provides support for SQLAlchemy (a Python library for working with databases) in a Flask application. SQLAlchemy is a popular Python library for working with databases, and Flask-SQLAlchemy provides a simple way to use it in a Flask application.
+
+### Flask-Migrate
+Flask-Migrate is a library that provides support for database migrations in a Flask application. Database migrations are a way to keep track of changes to your database schema, allowing you to update your database structure without affecting your application's data.
 
 ## Dependencies (frontend)
 ### React
