@@ -1,12 +1,10 @@
-class MessageModel:
-    def __init__(self, content, sender, timestamp):
-        self.content = content
-        self.sender = sender
-        self.timestamp = timestamp
+from database import db
+
+class Message(db.Model):
+    __tablename__ = 'messages'
     
-    def to_dict(self):
-        return {
-            'content': self.content,
-            'sender': self.sender,
-            'timestamp': self.timestamp
-        }
+    id = db.Column(db.String, primary_key=True)
+    chat_id = db.Column(db.String, db.ForeignKey('chats.id'), nullable=False)
+    sender_id = db.Column(db.String, db.ForeignKey('users.id'), nullable=False)
+    content = db.Column(db.String, nullable=False)
+    timestamp = db.Column(db.Date, nullable=False)

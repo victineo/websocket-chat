@@ -1,18 +1,19 @@
 from flask import Flask, request
+from flask_migrate import Migrate
 from flask_socketio import SocketIO, emit
-#from flask_cors import CORS
-import random
-import time
-from controllers.controller_chat import ChatController
+from database import db
+from models import *
+import random, time
+#from controllers.controller_chat import ChatController
 
 app = Flask(__name__, template_folder='../frontend/templates')
-# app.config['SECRET_KEY'] = 'your_secret_key'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # isso evita warnings
 
-#CORS(app)
+db.init_app(app)
+migrate = Migrate(app, db)
 
 socketio = SocketIO(app, cors_allowed_origins="*")
-
-users = {}
 
 lorem_messages = [
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
