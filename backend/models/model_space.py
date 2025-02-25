@@ -1,9 +1,10 @@
 from database import db
+import uuid
 
 class Space(db.Model):
     __tablename__ = 'spaces'
     
-    id = db.Column(db.String, primary_key=True)
-    user_id = db.Column(db.String, db.ForeignKey('users.id'), nullable=False)
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
     name = db.Column(db.String, nullable=False)
-    context_profile_id = db.Column(db.String, db.ForeignKey('context_profiles.id'), nullable=True)
+    context_profile_id = db.Column(db.String(36), db.ForeignKey('context_profiles.id'), nullable=True)
