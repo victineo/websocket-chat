@@ -1,78 +1,46 @@
-from models.model_chat import ChatModel
-from models.model_message import MessageModel
-from database import chats_table, messages_table, Query
+from models import Chat, Message
+from database import db
 from flask import request
 from datetime import datetime, timezone
 
 class ChatController:
     @staticmethod
-    def create_chat():
-        '''
-        O TinyDB cria seus próprios IDs para documentos, e os dicionários com toda a estrutura dos chats
-        passam a ser valores desses IDs. Ou seja, esses IDs NÃO estão presentes nos dicionários dos chats.
-        Portanto, quando os chats são encaminhados para o frontend, são encaminhados sem IDs, tornando impossível
-        enviar mensagens já que os chats não estão devidamente identificados.
-
-        Para solucionar esse problema, criamos um chat completo, inicialmente com `id=None`, e após o inserirmos
-        no banco de dados, usamos o ID de documento gerado pelo TinyDB para atualizar o campo `id` do chat.
-        '''
-        # 1. Cria um modelo de chat completo, mas sem ID
-        chat_name = f'Chat {datetime.now(timezone.utc).strftime('%d/%m/%Y %H:%M')}'
-        chat_model = ChatModel(name=chat_name)
-
-        # 2. Insere o dicionário do modelo no banco de dados e armazena o ID de documento gerado pelo TinyDB
-        chat_id = chats_table.insert(chat_model.to_dict())
-
-        # 3. Cria um ID dentro do dicionário do chat usando esse mesmo ID gerado pelo TinyDB, e o atualiza no banco de dados
-        chat_model.id = str(chat_id)
-        chats_table.update(chat_model.to_dict(), doc_ids=[chat_id])
-
-        return chat_id
+    def create_chat(user_id):
+        chat_name = f'Chat {datetime.now(timezone.utc).strftime("%d/%m/%Y %H:%M")}'
+        chat = Chat(name=chat_name, user_id=user_id)
+        db.session.add(chat)
+        db.session.commit()
+        return chat.id
     
     @staticmethod
     def get_chat(chat_id):
-        chat = chats_table.get(doc_id=chat_id)
-        return ChatModel(**chat)
+        return db.session.query(Chat).filter_by(id=chat_id).first()
     
     @staticmethod
     def get_chats():
-        chats = chats_table.all()
-
-        # Converte os chats de documentos para dicionários serializáveis
-        serializable_chats = []
-        for chat in chats:
-            chat_dict = dict(chat)
-            serializable_chats.append(chat_dict)
-
-        return serializable_chats
+        chats = db.session.query(Chat).all()
+        return [chat.to_dict() for chat in chats]
     
     @staticmethod
-    def add_message(chat_id, content, sender):
-        chat_doc_id = int(chat_id)
-        
-        chat = chats_table.get(doc_id=chat_doc_id)
-
-        message = MessageModel(
+    def add_message(chat_id, sender_id, content):
+        message = Message(
+            chat_id=chat_id,
+            sender_id=sender_id,
             content=content,
-            sender=sender,
-            timestamp=datetime.now(timezone.utc).isoformat()
+            timestamp=datetime.now(timezone.utc)
         )
-
-        if chat:
-            chat_model = ChatModel(**chat)
-            chat_model.add_message(message.to_dict())
-
-            chats_table.update(chat_model.to_dict(), doc_ids=[chat_doc_id])
-            return message.to_dict()
-        
-        return None
+        db.session.add(message)
+        db.session.commit()
+        return message.to_dict()
     
     @staticmethod
-    def update_chat(chat_id, name, participants):
-        chat_model = ChatModel(name, participants)
-        chats_table.update(chat_model.to_dict(), Query().id == chat_id)
+    def update_chat(chat_id, name):
+        chat = db.session.query(Chat).filter_by(id=chat_id).first()
+        if chat:
+            chat.name = name
+            db.session.commit()
     
     @staticmethod
     def delete_chat(chat_id):
-        chats_table.remove(Query().id == chat_id)
-    
+        db.session.query(Chat).filter_by(id=chat_id).delete()
+        db.session.commit()

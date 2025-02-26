@@ -4,7 +4,7 @@ from flask_socketio import SocketIO, emit
 from database import db
 from models import *
 import random, time
-#from controllers.controller_chat import ChatController
+from controllers.controller_chat import ChatController
 
 app = Flask(__name__, template_folder='../frontend/templates')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -43,8 +43,6 @@ def handle_get_initial_chats():
         emit('initial_chats', chats, broadcast=True)
         print(f'Chats iniciais solicitados por {user_id}')
     except Exception as e:
-        import traceback
-        traceback.print_exc()
         print(f'Erro ao obter chats: {e}')
 
 @socketio.on('chat_initial_message')
@@ -53,7 +51,7 @@ def handle_initial_message(msg):
         user_id = request.sid
 
         # 1. Cria um novo chat
-        chat_doc_id = ChatController.create_chat()
+        chat_doc_id = ChatController.create_chat(user_id)
         print(f'Novo chat criado: {chat_doc_id}')
 
         chat = ChatController.get_chat(chat_doc_id)
@@ -64,8 +62,8 @@ def handle_initial_message(msg):
         # Objeto para ser passado ao controlador
         message = ChatController.add_message(
             chat_id=chat_doc_id,
-            content=msg,
-            sender=user_id
+            sender_id=user_id,
+            content=msg
         )
 
         # 3. Emite a mensagem com dados estruturados
@@ -120,13 +118,13 @@ def send_system_message(chat_id):
     try:
         time.sleep(0.5) # Aguarda 0.5 segundos antes de enviar a mensagem automática
 
-        chat_doc_id = int(chat_id)
+        #chat_doc_id = int(chat_id)
 
         # Objeto para ser passado ao controlador
         lorem_message = ChatController.add_message(
-            chat_id=chat_doc_id,
-            content=random.choice(lorem_messages),
-            sender='system'
+            chat_id=chat_id,
+            sender_id='system',
+            content=random.choice(lorem_messages)
         )
 
         # Objeto para ser retornado ao frontend
