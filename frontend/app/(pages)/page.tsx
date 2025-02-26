@@ -38,6 +38,8 @@ export default function Home() {
                 return;
             }
 
+            console.log(`Chats recebidos do backend: ${initialChats.length}\n${JSON.stringify(initialChats, null, 2)}`);
+
             setChats(initialChats);
         });
 
@@ -50,9 +52,9 @@ export default function Home() {
                     messages: [
                         {
                             content: data.message.content,
-                            sender: data.message.sender,
+                            sender: data.message.sender_id,
                             timestamp: data.message.timestamp,
-                            isOwnMessage: data.message.sender === socket?.id
+                            isOwnMessage: true
                         }
                     ]
                 }
@@ -72,9 +74,9 @@ export default function Home() {
             
             const message: MessageData = {
                 content: data.message.content,
-                sender: data.message.sender,
+                sender: data.message.sender_id,
                 timestamp: data.message.timestamp,
-                isOwnMessage: data.message.sender === socket?.id
+                isOwnMessage: true
             }
 
             setMessages((prevMessages) => [...prevMessages, message]);
@@ -98,7 +100,7 @@ export default function Home() {
             
             const message: MessageData = {
                 content: data.message.content,
-                sender: data.message.sender,
+                sender: data.message.sender_id,
                 timestamp: data.message.timestamp,
                 isOwnMessage: false
             }

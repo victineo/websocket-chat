@@ -95,8 +95,8 @@ def handle_chat_message(msg):
         # Objeto para ser passado ao controlador
         message = ChatController.add_message(
             chat_id=chat_id,
-            content=str(msg['message']),
-            sender=user_id
+            sender_id=user_id,
+            content=str(msg['message'])
         )
 
         # 2. Emite a mensagem com dados estruturados
@@ -140,7 +140,6 @@ def send_system_message(chat_id):
     except Exception as e:
         print(f'Erro ao enviar mensagem automática: {e}')
         return None
-
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
