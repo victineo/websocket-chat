@@ -10,3 +10,13 @@ class Chat(db.Model):
     name = db.Column(db.String, nullable=False)
     context_profile_id = db.Column(db.String(36), db.ForeignKey('context_profiles.id'), nullable=True)
     #created_at = db.Column(db.Date, nullable=False)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'space_id': self.space_id,
+            'name': self.name,
+            'context_profile_id': self.context_profile_id,
+            #'created_at': self.created_at
+        }

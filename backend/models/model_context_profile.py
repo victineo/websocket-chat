@@ -8,3 +8,11 @@ class ContextProfile(db.Model):
     user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
     name = db.Column(db.String, nullable=False)
     instructions = db.Column(db.String, nullable=False)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'name': self.name,
+            'instructions': self.instructions
+        }

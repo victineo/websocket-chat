@@ -9,3 +9,12 @@ class Message(db.Model):
     sender_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
     content = db.Column(db.String, nullable=False)
     timestamp = db.Column(db.Date, nullable=False)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'chat_id': self.chat_id,
+            'sender_id': self.sender_id,
+            'content': self.content,
+            'timestamp': self.timestamp.strftime("%d/%m/%Y %H:%M")
+        }
