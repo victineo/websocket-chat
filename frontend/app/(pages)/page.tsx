@@ -18,13 +18,19 @@ export default function Home() {
 
     const [activeChat, setActiveChat] = useState<ChatData>();
 
-    const [messages, setMessages] = useState<MessageData[]>([]);
+    const [activeMessages, setActiveMessages] = useState<MessageData[]>([]);
 
     useEffect(() => {
         const newSocket = io('http://localhost:5000');
 
         newSocket.on('connect', () => {
             console.log('Conectado ao servidor');
+            console.log(`newSocket ID: ${newSocket.id}`);
+
+            setSocket((prevSocket) => {
+                console.log(`Socket antigo: ${prevSocket?.id}`);
+                return newSocket;
+            });
 
             newSocket.emit('get_initial_chats');
             console.log(`Solicitando chats para o backend...`);
@@ -45,24 +51,28 @@ export default function Home() {
 
         newSocket.on('new_initial_message', (data: any) => {
             console.log(`O backend acionou o evento 'new_initial_message'!`);
+            console.log(`Seção ativa: ${activeSection}`);
             if (activeSection === 'home') {
-                const newChat: ChatData = {
-                    id: data.chat_id,
-                    name: data.chat_name,
-                    messages: [
-                        {
-                            content: data.message.content,
-                            sender: data.message.sender_id,
-                            timestamp: data.message.timestamp,
-                            isOwnMessage: true
-                        }
-                    ]
-                }
+                const newChat = {
+                    id: data.id,
+                    user_id: data.user_id,
+                    space_id: data.space_id,
+                    name: data.name,
+                    context_profile_id: data.context_profile_id,
+                    messages: data.messages.map((msg: any) => ({
+                        id: msg.id,
+                        chat_id: msg.chat_id,
+                        sender_id: msg.sender_id,
+                        content: msg.content,
+                        timestamp: msg.timestamp,
+                        isOwnMessage: msg.sender_id === socket?.id
+                    }))
+                };
 
                 setActiveSection('chat');
                 setChats((prevChats) => [...prevChats, newChat]);
                 setActiveChat(newChat);
-                setMessages(newChat.messages);
+                setActiveMessages(newChat.messages);
                 console.log(`Estrutura completa do novo chat criado:\n${JSON.stringify(newChat, null, 2)}`);
             }
         });
@@ -70,51 +80,37 @@ export default function Home() {
         newSocket.on('new_chat_message', (data: any) => {
             console.log(`O backend acionou o evento 'new_chat_message'!`);
             console.log(`Estrutura completa do chat ativo NO ESTADO: ${JSON.stringify(activeChat, null, 2)}`);
-            console.log(`Estrutura completa das mensagens NO ESTADO: ${JSON.stringify(messages, null, 2)}`);
+            console.log(`Estrutura completa das mensagens NO ESTADO: ${JSON.stringify(activeMessages, null, 2)}`);
             
             const message: MessageData = {
+                id: data.message.id,
+                chat_id: data.message.chat_id,
+                sender_id: data.message.sender_id,
                 content: data.message.content,
-                sender: data.message.sender_id,
                 timestamp: data.message.timestamp,
-                isOwnMessage: true
+                isOwnMessage: data.message.sender_id === socket?.id
             }
 
-            setMessages((prevMessages) => [...prevMessages, message]);
+            setActiveMessages((prevMessages) => [...prevMessages, message]);
 
-            setActiveChat((prevChat) => {
-                if (prevChat) {
-                    return {
-                        ...prevChat,
-                        messages: [...prevChat.messages, message]
-                    }
-                }
-                return prevChat;
-            });
             console.log(`Estrutura completa do chat ativo atualizada NO ESTADO:\n${JSON.stringify(activeChat, null, 2)}\nID: ${activeChat?.id}\nNome: ${activeChat?.name}`);
 
-            console.log(`Mensagem recebida de ${message.sender}: ${message.content}`);
+            console.log(`Mensagem recebida de ${message.sender_id}: ${message.content}`);
         });
 
         newSocket.on('new_system_message', (data: any) => {
             console.log(`O backend acionou o evento 'new_system_message'!`);
             
             const message: MessageData = {
-                content: data.message.content,
-                sender: data.message.sender_id,
-                timestamp: data.message.timestamp,
-                isOwnMessage: false
+                id: data.id,
+                chat_id: data.chat_id,
+                sender_id: data.sender_id,
+                content: data.content,
+                timestamp: data.timestamp,
+                isOwnMessage: data.sender_id === socket?.id
             }
 
-            setMessages((prevMessages) => [...prevMessages, message]);
-            setActiveChat((prevChat) => {
-                if (prevChat) {
-                    return {
-                        ...prevChat,
-                        messages: [...prevChat.messages, message]
-                    }
-                }
-                return prevChat;
-            })
+            setActiveMessages((prevMessages) => [...prevMessages, message]);
 
             console.log(`Mensagem do sistema integrada ao chat: ${message.content}`);
         });
@@ -128,6 +124,7 @@ export default function Home() {
 
     function handleSendInitialMessage(message: string) {
         if (socket) {
+            console.log(`${socket.id} enviando mensagem inicial: ${message}`)
             socket.emit('chat_initial_message', message);
         }
     };
@@ -148,8 +145,6 @@ export default function Home() {
         }
 
         setActiveChat(chat);
-        console.log(`Estrutura completa do chat selecionado: ${JSON.stringify(chat, null, 2)}`);
-        setMessages(chat.messages);
     }
 
     return (
@@ -167,7 +162,7 @@ export default function Home() {
                 )}
                 {activeSection === 'chat' && (
                     <Chat
-                        messages={messages}
+                        messages={activeMessages}
                         onSendMessage={handleSendChatMessage}
                         socket={socket}
                     />

@@ -1,6 +1,6 @@
 import { Socket } from 'socket.io-client';
 import styles from './Chat.module.css';
-import Message from '../MessageBox/MessageBox';
+import MessageBox from '../MessageBox/MessageBox';
 import MessageForm from '../MessageForm/MessageForm';
 import { MessageData } from '../../types';
 
@@ -20,12 +20,14 @@ export default function Chat({
             <div className={styles.scrollContainer}>
                 <div className={styles.messagesContainer}>
                     {messages.map((msg, index) => (
-                        <Message
+                        <MessageBox
                         key={index}
+                        id={msg.id}
+                        chat_id={msg.chat_id}
+                        sender_id={msg.sender_id}
                         content={msg.content}
-                        sender={msg.sender}
                         timestamp={msg.timestamp}
-                        isOwnMessage={msg.sender != 'system'} // Anteriormente `msg.sender === socket?.id`
+                        isOwnMessage={msg.sender_id != 'system'} // Anteriormente `msg.sender === socket?.id`
                         />
                     ))}
                 </div>

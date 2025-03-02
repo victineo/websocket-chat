@@ -1,9 +1,8 @@
 import styles from './MessageBox.module.css';
 import { MessageData } from '../../types';
 
-export default function Message({
+export default function MessageBox({
     content,
-    sender,
     timestamp,
     isOwnMessage
 }: MessageData) {
