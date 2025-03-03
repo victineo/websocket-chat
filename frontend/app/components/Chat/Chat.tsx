@@ -21,13 +21,13 @@ export default function Chat({
                 <div className={styles.messagesContainer}>
                     {messages.map((msg, index) => (
                         <MessageBox
-                        key={index}
-                        id={msg.id}
-                        chat_id={msg.chat_id}
-                        sender_id={msg.sender_id}
-                        content={msg.content}
-                        timestamp={msg.timestamp}
-                        isOwnMessage={msg.sender_id != 'system'} // Anteriormente `msg.sender === socket?.id`
+                            key={index}
+                            id={msg.id}
+                            chat_id={msg.chat_id}
+                            sender_id={msg.sender_id}
+                            content={msg.content}
+                            timestamp={msg.timestamp}
+                            isOwnMessage={msg.sender_id != 'system'} // Anteriormente `msg.sender === socket?.id`
                         />
                     ))}
                 </div>
