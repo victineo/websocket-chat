@@ -38,10 +38,12 @@ def handle_connect():
 def handle_get_initial_chats():
     try:
         user_id = request.sid
+        print(f'Chats iniciais solicitados por {user_id}')
+
         chats = ChatController.get_chats()
+        print(f'Chats iniciais obtidos:\n{chats}')
 
         emit('initial_chats', chats, broadcast=True)
-        print(f'Chats iniciais solicitados por {user_id}')
     except Exception as e:
         print(f'Erro ao obter chats: {e}')
 
@@ -109,6 +111,16 @@ def handle_chat_message(msg):
         send_system_message(chat_id)
     except Exception as e:
         print(f'Erro ao processar mensagem: {e}')
+
+@socketio.on('get_chat_messages')
+def handle_get_chat_messages(chat_id):
+    try:
+        print(f'Mensagens do chat {chat_id} solicitadas por {request.sid}')
+        messages = MessageController.get_chat_messages(chat_id)
+        print(f'Mensagens obtidas:\n{messages}')
+        emit('chat_messages', messages, broadcast=True)
+    except Exception as e:
+        print(f'Erro ao obter mensagens: {e}')
 
 def send_system_message(chat_id):
     try:
