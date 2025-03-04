@@ -83,7 +83,7 @@ export default function Home() {
 
                 setActiveSection('chat');
                 setChats((prevChats) => [...prevChats, newChat]);
-                setActiveChat(newChat);
+                setActiveChat(() => newChat);
                 setActiveMessages((prevMessages) => [...prevMessages, newMessage]);
             }
         });
@@ -134,7 +134,7 @@ export default function Home() {
                 isOwnMessage: message.sender_id === socket?.id
             }));
 
-            setActiveMessages(messages);
+            setActiveMessages(() => messages);
         })
 
         setSocket(newSocket);
@@ -165,7 +165,13 @@ export default function Home() {
             setActiveSection('chat');
         }
 
+        if (activeChat?.id === chat.id) {
+            console.log(`O chat ${chat.id} já está selecionado.`);
+            return;
+        }
+
         setActiveChat(chat);
+        setActiveMessages([]); // Limpa as mensagens para evitar exibir mensagens do chat errado temporariamente
         console.log(`Estrutura do chat selecionado:`, chat);
 
         if (socket) {
