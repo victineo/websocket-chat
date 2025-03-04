@@ -8,7 +8,7 @@ class Message(db.Model):
     chat_id = db.Column(db.String(36), db.ForeignKey('chats.id'), nullable=False)
     sender_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
     content = db.Column(db.String, nullable=False)
-    timestamp = db.Column(db.Date, nullable=False)
+    timestamp = db.Column(db.DateTime, nullable=False)
 
     def to_dict(self):
         return {
