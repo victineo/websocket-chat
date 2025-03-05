@@ -57,7 +57,7 @@ def handle_initial_message(msg):
         print(f'Novo chat criado: {chat_doc_id}')
 
         # 2. Adiciona a mensagem inicial ao novo chat
-        ChatController.add_message(
+        MessageController.add_message(
             chat_id=chat_doc_id,
             sender_id=user_id,
             content=msg
@@ -91,7 +91,7 @@ def handle_chat_message(msg):
 
         # 1. Adiciona a mensagem ao chat
         # Objeto para ser passado ao controlador
-        message = ChatController.add_message(
+        message = MessageController.add_message(
             chat_id=chat_id,
             sender_id=user_id,
             content=str(msg['message'])
@@ -129,7 +129,7 @@ def send_system_message(chat_id):
         #chat_doc_id = int(chat_id)
 
         # Objeto para ser passado ao controlador
-        lorem_message = ChatController.add_message(
+        lorem_message = MessageController.add_message(
             chat_id=chat_id,
             sender_id='system',
             content=random.choice(lorem_messages)

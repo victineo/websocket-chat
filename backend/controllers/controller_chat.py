@@ -22,18 +22,6 @@ class ChatController:
         return [chat.to_dict() for chat in chats]
     
     @staticmethod
-    def add_message(chat_id, sender_id, content):
-        message = Message(
-            chat_id=chat_id,
-            sender_id=sender_id,
-            content=content,
-            timestamp=datetime.now(timezone.utc)
-        )
-        db.session.add(message)
-        db.session.commit()
-        return message.to_dict()
-    
-    @staticmethod
     def update_chat(chat_id, name):
         chat = db.session.query(Chat).filter_by(id=chat_id).first()
         if chat:
