@@ -1,0 +1,20 @@
+.spacesContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 5rem 10rem;
+}
+.spacesContainer > h1 {
+    font-size: 1.75rem;
+}
+
+.spacesCarousel {
+    display: flex;
+    width: 47rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.spacesCarousel > * {
+    flex: 1 1 15rem;
+}

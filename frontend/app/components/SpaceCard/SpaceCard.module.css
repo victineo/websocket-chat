@@ -1,0 +1,39 @@
+.spaceCardContainer {
+    width: 15rem;
+    overflow: hidden;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.spaceCardStateLayer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    gap: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.01);
+
+    transition: background-color ease-out 0.15s;
+}
+.spaceCardStateLayer:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.spaceCardTextInfo {
+    display: flex;
+    flex-direction: column;
+}
+.spaceCardTextInfo h1 {
+    font-size: 1.25rem;
+}
+.spaceCardTextInfo p {
+    font-size: 1rem;
+    color: gray;
+}
+
+.spaceCardMetaData > * {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: gray;
+}
