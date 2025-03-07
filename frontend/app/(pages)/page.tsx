@@ -7,6 +7,7 @@ import styles from './home.module.css';
 import Aside from '../components/Aside/Aside';
 import Welcome from '../components/Welcome/Welcome';
 import Chat from '../components/Chat/Chat';
+import Spaces from '../components/Spaces/Spaces';
 import { MessageData, ChatData } from '../types';
 
 export default function Home() {
@@ -198,6 +199,9 @@ export default function Home() {
                         onSendMessage={handleSendChatMessage}
                         socket={socket}
                     />
+                )}
+                {activeSection === 'spaces' && (
+                    <Spaces />
                 )}
             </div>
         </div>
