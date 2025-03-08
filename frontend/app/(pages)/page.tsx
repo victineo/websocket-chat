@@ -22,6 +22,15 @@ export default function Home() {
     const [activeMessages, setActiveMessages] = useState<MessageData[]>([]);
 
     useEffect(() => {
+        console.log(`Estado atualizado de activeSection:`, activeSection);
+
+        if (activeSection !== 'chat') {
+            setActiveChat(undefined);
+            setActiveMessages([]);
+        }
+    }, [activeSection]);
+
+    useEffect(() => {
         console.log(`Estado atualizado de chats:`, chats);
     }, [chats]);
 
