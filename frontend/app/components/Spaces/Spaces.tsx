@@ -9,7 +9,7 @@ export default function Spaces() {
             <h1>Meus espaços</h1>
             <div className={styles.spacesCarousel}>
                 <SpaceCreateCard />
-                <SpaceCard name="SpaceCard" description="Descrição do espaço" chatCount={1} />
+                <SpaceCard name="SpaceCard" chatCount={1} />
                 <SpaceCard name="SpaceCard" description="Descrição do espaço" chatCount={1} />
                 <SpaceCard name="SpaceCard" description="Descrição do espaço" chatCount={1} />
                 <SpaceCard name="SpaceCard" description="Descrição do espaço" chatCount={1} />

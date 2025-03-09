@@ -2,7 +2,7 @@ import styles from './SpaceCard.module.css';
 
 interface SpaceCardProps {
     name: string;
-    description: string;
+    description?: string;
     chatCount: number;
 }
 
