@@ -16,8 +16,13 @@ class ChatController:
         return db.session.query(Chat).filter_by(id=chat_id).first()
     
     @staticmethod
-    def get_chats():
+    def get_all_chats():
         chats = db.session.query(Chat).all()
+        return [chat.to_dict() for chat in chats]
+    
+    @staticmethod
+    def get_space_chats(space_id):
+        chats = db.session.query(Chat).filter_by(space_id=space_id).all()
         return [chat.to_dict() for chat in chats]
     
     @staticmethod

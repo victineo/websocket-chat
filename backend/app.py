@@ -40,7 +40,7 @@ def handle_get_initial_chats():
         user_id = request.sid
         print(f'Chats iniciais solicitados por {user_id}')
 
-        chats = ChatController.get_chats()
+        chats = ChatController.get_all_chats()
         print(f'Chats iniciais obtidos:\n{chats}')
 
         emit('initial_chats', chats, broadcast=True)
