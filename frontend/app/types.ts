@@ -1,10 +1,9 @@
-export interface MessageData {
+export interface SpaceData {
     id: string;
-    chat_id: string;
-    sender_id: string;
-    content: string;
-    timestamp: string;
-    isOwnMessage: boolean;
+    user_id: string;
+    name: string;
+    description: string | null;
+    context_profile_id: string | null;
 }
 
 export interface ChatData {
@@ -13,6 +12,13 @@ export interface ChatData {
     space_id: string;
     name: string;
     context_profile_id: string | null;
-    created_at?: string;
-    last_message?: MessageData;
+}
+
+export interface MessageData {
+    id: string;
+    chat_id: string;
+    sender_id: string;
+    content: string;
+    timestamp: string;
+    isOwnMessage: boolean;
 }
