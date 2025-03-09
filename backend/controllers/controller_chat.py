@@ -1,6 +1,5 @@
-from models import Chat, Message
+from models import Chat
 from database import db
-from flask import request
 from datetime import datetime, timezone
 
 class ChatController:
