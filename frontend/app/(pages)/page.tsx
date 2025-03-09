@@ -8,12 +8,16 @@ import Aside from '../components/Aside/Aside';
 import Welcome from '../components/Welcome/Welcome';
 import Chat from '../components/Chat/Chat';
 import Spaces from '../components/Spaces/Spaces';
-import { MessageData, ChatData } from '../types';
+import { SpaceData, ChatData, MessageData } from '../types';
 
 export default function Home() {
     const [socket, setSocket] = useState<Socket | null>(null);
 
     const [activeSection, setActiveSection] = useState('home');
+
+    const [spaces, setSpaces] = useState<SpaceData[]>([]);
+
+    const [activeSpace, setActiveSpace] = useState<SpaceData>();
 
     const [chats, setChats] = useState<ChatData[]>([]);
 
