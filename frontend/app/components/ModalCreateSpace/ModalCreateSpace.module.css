@@ -1,0 +1,58 @@
+.modalCreateSpaceContainer {
+    background-color: rgb(25, 25, 25);
+    border-radius: 8px;
+    width: 100%;
+    max-width: 30rem;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.modalHeader h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+.modalBody {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.modalInputContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.modalInputContainer label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+}
+
+.modalFooter {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+.modalFooter button {
+    padding: 0.5rem 1rem;
+    background-color: white;
+    border-radius: 8px;
+    color: black;
+    cursor: pointer;
+}
+.modalFooter button:hover {
+    background-color: lightgray;
+}
+.modalFooter button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
