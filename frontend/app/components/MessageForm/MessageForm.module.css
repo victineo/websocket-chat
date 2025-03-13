@@ -7,6 +7,21 @@
     background-color: #1f1f1f;
     border-radius: 16px;
 }
+.messageFormContainer textarea {
+    width: 100%;
+    height: auto;
+    min-height: 1rem;
+    line-height: 1.6;
+    letter-spacing: 0.015rem;
+    color: white;
+    background-color: transparent;
+    outline: none;
+    resize: none;
+    overflow: hidden;
+}
+.messageFormContainer textarea::placeholder {
+    color: gray;
+}
 
 .messageFormButtons {
     display: flex;

@@ -30,7 +30,7 @@ export default function MessageForm({ onSendMessage }: MessageFormProps) {
 
     return (
         <form className={styles.messageFormContainer} onSubmit={handleSendMessage}>
-            <TextArea
+            <textarea
                 placeholder="Digite uma mensagem"
                 value={messageText}
                 onChange={handleMessageTextChange}

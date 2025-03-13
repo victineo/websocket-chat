@@ -2,13 +2,20 @@
     width: 100%;
     height: auto;
     min-height: 1rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
     line-height: 1.6;
     letter-spacing: 0.015rem;
     color: white;
-    background-color: transparent;
     outline: none;
     resize: none;
     overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.05);
+
+    transition: background-color ease-out 0.15s;
+}
+.textArea:focus {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 .textArea::placeholder {
     color: gray;
