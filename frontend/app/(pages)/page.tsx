@@ -8,21 +8,21 @@ import Aside from '../components/Aside/Aside';
 import Welcome from '../components/Welcome/Welcome';
 import Chat from '../components/Chat/Chat';
 import Spaces from '../components/Spaces/Spaces';
+
+import ModalCreateSpace from '../components/ModalCreateSpace/ModalCreateSpace';
+import { useModal } from '../context/ModalContext';
+
 import { SpaceData, ChatData, MessageData } from '../types';
 
 export default function Home() {
+    const { showModal, hideModal } = useModal();
+
     const [socket, setSocket] = useState<Socket | null>(null);
-
     const [activeSection, setActiveSection] = useState('home');
-
     const [spaces, setSpaces] = useState<SpaceData[]>([]);
-
     const [activeSpace, setActiveSpace] = useState<SpaceData>();
-
     const [chats, setChats] = useState<ChatData[]>([]);
-
     const [activeChat, setActiveChat] = useState<ChatData>();
-
     const [activeMessages, setActiveMessages] = useState<MessageData[]>([]);
 
     useEffect(() => {
@@ -157,6 +157,10 @@ export default function Home() {
             newSocket.close();
         };
     }, []);
+
+    function handleOpenCreateSpaceModal() {
+        showModal(<ModalCreateSpace closeModal={hideModal} />);
+    }
 
     function handleSendInitialMessage(message: string) {
         if (socket) {
