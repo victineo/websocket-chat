@@ -7,15 +7,18 @@
     line-height: 1.6;
     letter-spacing: 0.015rem;
     color: white;
-    outline: none;
+    outline: 1px solid transparent;
     resize: none;
     overflow: hidden;
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.03);
 
-    transition: background-color ease-out 0.15s;
+    transition: background-color, outline ease-out 0.15s;
+}
+.textInput:hover {
+    outline: 1px solid rgba(255, 255, 255, 0.15);
 }
 .textInput:focus {
-    background-color: rgba(255, 255, 255, 0.1);
+    outline: 1px solid rgba(255, 255, 255, 0.5);
 }
 .textInput::placeholder {
     color: gray;

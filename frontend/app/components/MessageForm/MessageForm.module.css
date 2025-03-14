@@ -4,9 +4,19 @@
     gap: 1rem;
     width: 70%;
     padding: 1rem;
-    background-color: #1f1f1f;
+    background-color: rgba(255, 255, 255, 0.03);
+    outline: 1px solid transparent;
     border-radius: 16px;
+
+    transition: outline ease-out 0.15s;
 }
+.messageFormContainer:hover {
+    outline: 1px solid rgba(255, 255, 255, 0.15);
+}
+.messageFormContainer:focus-within {
+    outline: 1px solid rgba(255, 255, 255, 0.5);
+}
+
 .messageFormContainer textarea {
     width: 100%;
     height: auto;
