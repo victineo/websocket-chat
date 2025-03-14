@@ -13,15 +13,20 @@ export default function ModalCreateSpace({ closeModal }: { closeModal: () => voi
             </div>
             <div className={styles.modalBody}>
                 <div className={styles.modalInputContainer}>
-                    <label htmlFor="name">Nome do espaço</label>
+                    <label htmlFor="name">Nome</label>
                     <TextInput placeholder="Estudos" />
                 </div>
                 <div className={styles.modalInputContainer}>
-                    <label htmlFor="description">Descrição do espaço</label>
+                    <label htmlFor="description">Descrição</label>
                     <TextArea placeholder="Espaço para focar em aprendizagem" />
+                </div>
+                <div className={styles.modalInputContainer}>
+                    <label htmlFor="description">Instruções personalizadas</label>
+                    <TextArea placeholder="Sempre responda em listas" />
                 </div>
             </div>
             <div className={styles.modalFooter}>
+                <button onClick={closeModal}>Cancelar</button>
                 <button type="submit">Criar</button>
             </div>
         </div>
